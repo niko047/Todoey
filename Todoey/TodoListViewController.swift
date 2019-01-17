@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    let itemArray = ["Find Mike", "Run Forrest", "Rocky Balboa"]
+    var itemArray = ["Find Mike", "Run Forrest", "Rocky Balboa"]
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -41,5 +41,34 @@ class TodoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    
+    //MARK - Add IB Action to Add items to the todo list
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Would you like to add an item to your todo list?", message: "", preferredStyle: .alert)
+        
+        let actionNewItem = UIAlertAction(title: "Add Item", style: .default) { (actionNewItem) in
+            //what will happen after the user clicks the add item
+            self.itemArray.append(textField.text ?? "Noname")
+
+            self.tableView.reloadData()
+        }
+        
+        let actionDismiss = UIAlertAction(title: "No, thanks", style: .default) { (actionDismiss) in
+            print("Fail")
+        }
+        
+        alert.addAction(actionNewItem)
+        alert.addAction(actionDismiss)
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        
+        present(alert, animated: true, completion: nil)
+    }
 }
 
